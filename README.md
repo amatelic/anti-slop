@@ -2,7 +2,7 @@
 
 Opinionated Oxlint rules that reject low-evidence, low-signal TypeScript and JavaScript patterns. This is an owned fork of [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) (MIT), packaged to be consumed as a **git dependency** instead of being vendored into each repository.
 
-There is no build step: Oxlint loads `src/index.ts` (TypeScript) directly through `jsPlugins`.
+There is no build step for consumers: pnpm runs the `prepare` script on git install and bundles `src/` to `dist/index.js` (CommonJS) with esbuild. Point `jsPlugins` at the built entry.
 
 ## Usage
 
@@ -16,7 +16,7 @@ import { defineConfig } from "oxlint";
 
 export default defineConfig({
   jsPlugins: [
-    { name: "anti-slop", specifier: "@amatelic/anti-slop/src/index.ts" },
+    { name: "anti-slop", specifier: "@amatelic/anti-slop/dist/index.js" },
   ],
   rules: {
     "oxc/no-accumulating-spread": "error",
@@ -42,7 +42,7 @@ export default defineConfig({
 });
 ```
 
-The Effect plugin (`src/effect/`) is opt-in — register `@amatelic/anti-slop/src/effect/index.ts` as a second plugin only in repositories with a direct `effect` dependency.
+The Effect plugin (`src/effect/`) is opt-in — register `@amatelic/anti-slop/dist/effect/index.js` as a second plugin only in repositories with a direct `effect` dependency.
 
 ## Version lockstep
 

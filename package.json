@@ -1,17 +1,20 @@
 {
   "name": "@amatelic/anti-slop",
   "version": "1.0.0",
-  "description": "Anti-slop Oxlint rules — owned fork of dmmulroy/anti-slop consumed as a git dependency. Oxlint loads src/index.ts directly; no build step.",
+  "description": "Anti-slop Oxlint rules — owned fork of dmmulroy/anti-slop consumed as a git dependency. Built to dist/index.js on install (pnpm prepare).",
   "license": "MIT",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --packages=external --outfile=dist/index.js && esbuild src/effect/index.ts --bundle --platform=node --format=cjs --packages=external --outfile=dist/effect/index.js",
+    "prepare": "pnpm build",
     "typecheck": "tsc --noEmit"
   },
-  "files": ["src", "README.md", "UPSTREAM.md", "LICENSE"],
+  "files": ["dist", "src", "README.md", "UPSTREAM.md", "LICENSE"],
   "dependencies": {
     "@oxlint/plugins": "1.82.0"
   },
   "devDependencies": {
+    "esbuild": "^0.25.0",
     "typescript": "^5.6.3"
   }
 }

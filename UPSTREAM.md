@@ -6,8 +6,9 @@
 - `src/` is byte-identical to upstream `src/` at the commit above, except upstream `src/**/*.test.ts` files are not included (they were not part of the installer bundle this fork started from).
 - Packaging deviations (this fork only, no rule changes):
   - Standalone package `@amatelic/anti-slop` meant for git-dependency consumption (`pnpm add -D @amatelic/anti-slop@github:amatelic/anti-slop`).
+  - Bundled to `dist/` (CommonJS, esbuild, `--packages=external`) by the `prepare` script on git install — Node refuses type-stripping `.ts` under `node_modules`, so a compiled entry is required. `src/` ships for reference/debugging only.
   - `@oxlint/plugins` is a pinned-exact production `dependency` so pnpm installs it transitively for git installs.
-  - No build/publish: Oxlint loads `src/index.ts` directly; the only script is `typecheck`.
+  - No publish to npm: the only consumer entry points are `dist/index.js` (generic) and `dist/effect/index.js` (opt-in); scripts are `build`, `prepare`, `typecheck`.
 - Upstream's vendored `src/vendor/eslint-stylistic/LICENSE` travels with the `require-readable-spacing` rule.
 
 ## Syncing upstream
