@@ -2,7 +2,7 @@
 
 Opinionated Oxlint rules that reject low-evidence, low-signal TypeScript and JavaScript patterns. This is an owned fork of [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) (MIT), packaged to be consumed as a **git dependency** instead of being vendored into each repository.
 
-There is no build step for consumers: pnpm runs the `prepare` script on git install and bundles `src/` to `dist/index.js` (CommonJS) with esbuild. Point `jsPlugins` at the built entry.
+There is no install-time build: `dist/` is committed to this repository (CommonJS, esbuild `--packages=external`). After changing rules, run `pnpm build` and commit the regenerated `dist/`. Consumers point `jsPlugins` at the built entry.
 
 ## Usage
 
