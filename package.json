@@ -1,0 +1,17 @@
+{
+  "name": "@amatelic/anti-slop",
+  "version": "1.0.0",
+  "description": "Anti-slop Oxlint rules — owned fork of dmmulroy/anti-slop consumed as a git dependency. Oxlint loads src/index.ts directly; no build step.",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "files": ["src", "README.md", "UPSTREAM.md", "LICENSE"],
+  "dependencies": {
+    "@oxlint/plugins": "1.82.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
