@@ -2,7 +2,7 @@
 
 Opinionated Oxlint rules that reject low-evidence, low-signal TypeScript and JavaScript patterns. This is an owned fork of [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) (MIT), packaged to be consumed as a **git dependency** instead of being vendored into each repository.
 
-There is no install-time build: `dist/` is committed to this repository (CommonJS, esbuild `--packages=external`). After changing rules, run `pnpm build` and commit the regenerated `dist/`. Consumers point `jsPlugins` at the built entry.
+There is no install-time build: `dist/` is committed to this repository (ESM `.mjs`, esbuild `--packages=external` — Node refuses type-stripping `.ts` under `node_modules`, and ESM keeps the `default`-export shape Oxlint's plugin loader expects). After changing rules, run `pnpm build` and commit the regenerated `dist/`. Consumers point `jsPlugins` at the built entry.
 
 ## Usage
 
@@ -16,7 +16,7 @@ import { defineConfig } from "oxlint";
 
 export default defineConfig({
   jsPlugins: [
-    { name: "anti-slop", specifier: "@amatelic/anti-slop/dist/index.js" },
+    { name: "anti-slop", specifier: "@amatelic/anti-slop/dist/index.mjs" },
   ],
   rules: {
     "oxc/no-accumulating-spread": "error",
@@ -42,7 +42,7 @@ export default defineConfig({
 });
 ```
 
-The Effect plugin (`src/effect/`) is opt-in — register `@amatelic/anti-slop/dist/effect/index.js` as a second plugin only in repositories with a direct `effect` dependency.
+The Effect plugin (`src/effect/`) is opt-in — register `@amatelic/anti-slop/dist/effect/index.mjs` as a second plugin only in repositories with a direct `effect` dependency.
 
 ## Version lockstep
 

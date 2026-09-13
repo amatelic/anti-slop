@@ -1,32 +1,8 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
 // src/index.ts
-var index_exports = {};
-__export(index_exports, {
-  default: () => index_default
-});
-module.exports = __toCommonJS(index_exports);
-var import_plugins18 = require("@oxlint/plugins");
+import { eslintCompatPlugin } from "@oxlint/plugins";
 
 // src/rules/no-array-filter-map.ts
-var import_plugins = require("@oxlint/plugins");
+import { defineRule } from "@oxlint/plugins";
 
 // src/shared/array-method.ts
 function unwrapArrayExpression(node) {
@@ -91,7 +67,7 @@ function isKnownArrayExpression(sourceCode, node, visited = /* @__PURE__ */ new 
 }
 
 // src/rules/no-array-filter-map.ts
-var noArrayFilterMapRule = (0, import_plugins.defineRule)({
+var noArrayFilterMapRule = defineRule({
   meta: {
     type: "suggestion",
     docs: { description: "Disallow adjacent array filter/map passes in favor of lazy iterator helpers or a single transformation." },
@@ -116,7 +92,7 @@ var noArrayFilterMapRule = (0, import_plugins.defineRule)({
 });
 
 // src/rules/no-reduce-accumulator-copy.ts
-var import_plugins2 = require("@oxlint/plugins");
+import { defineRule as defineRule2 } from "@oxlint/plugins";
 function enclosingReducer(node) {
   let parent = node.parent;
   while (parent !== null) {
@@ -157,7 +133,7 @@ function isGlobalCopyOwner(sourceCode, node, name) {
   const variable = resolveArrayBinding(sourceCode, node);
   return variable === null || variable.defs.length === 0;
 }
-var noReduceAccumulatorCopyRule = (0, import_plugins2.defineRule)({
+var noReduceAccumulatorCopyRule = defineRule2({
   meta: {
     type: "problem",
     docs: { description: "Disallow copying growing reducer accumulators with Object.assign, Array.from, or array copy methods." },
@@ -196,7 +172,7 @@ var noReduceAccumulatorCopyRule = (0, import_plugins2.defineRule)({
 });
 
 // src/rules/no-chained-type-assertions.ts
-var import_plugins3 = require("@oxlint/plugins");
+import { defineRule as defineRule3 } from "@oxlint/plugins";
 function isTypeAssertionExpression(node) {
   return node.type === "TSAsExpression" || node.type === "TSTypeAssertion";
 }
@@ -231,7 +207,7 @@ function isForbiddenAssertionChain(node) {
   }
   return assertionCount > 1 && hasNonConstAssertion;
 }
-var noChainedTypeAssertionsRule = (0, import_plugins3.defineRule)({
+var noChainedTypeAssertionsRule = defineRule3({
   meta: {
     type: "problem",
     docs: {
@@ -254,7 +230,7 @@ var noChainedTypeAssertionsRule = (0, import_plugins3.defineRule)({
 });
 
 // src/rules/no-conditional-empty-object-spread.ts
-var import_plugins4 = require("@oxlint/plugins");
+import { defineRule as defineRule4 } from "@oxlint/plugins";
 function unwrapParentheses(node) {
   let current = node;
   while (current.type === "ParenthesizedExpression") {
@@ -269,7 +245,7 @@ function isConditionalEmptyObjectSpread(node) {
   const conditional = unwrapParentheses(node);
   return conditional.type === "ConditionalExpression" && (isEmptyObjectExpression(conditional.consequent) || isEmptyObjectExpression(conditional.alternate));
 }
-var noConditionalEmptyObjectSpreadRule = (0, import_plugins4.defineRule)({
+var noConditionalEmptyObjectSpreadRule = defineRule4({
   meta: {
     type: "suggestion",
     docs: {
@@ -292,7 +268,7 @@ var noConditionalEmptyObjectSpreadRule = (0, import_plugins4.defineRule)({
 });
 
 // src/rules/no-known-value-widening.ts
-var import_plugins5 = require("@oxlint/plugins");
+import { defineRule as defineRule5 } from "@oxlint/plugins";
 
 // src/shared/lexical-type-parameters.ts
 function isNode(value) {
@@ -984,7 +960,7 @@ function isDictionaryAccumulatorTarget(destination) {
 function hasParentAssertion(node) {
   return node.parent?.type === "TSAsExpression" || node.parent?.type === "TSTypeAssertion";
 }
-var noKnownValueWideningRule = (0, import_plugins5.defineRule)({
+var noKnownValueWideningRule = defineRule5({
   meta: {
     type: "problem",
     docs: {
@@ -1121,7 +1097,7 @@ var noKnownValueWideningRule = (0, import_plugins5.defineRule)({
 });
 
 // src/rules/no-module-mocking.ts
-var import_plugins6 = require("@oxlint/plugins");
+import { defineRule as defineRule6 } from "@oxlint/plugins";
 var moduleMockMethods = /* @__PURE__ */ new Set(["doMock", "mock", "unstable_mockModule"]);
 function importedName(node) {
   if (node.type !== "ImportSpecifier") return null;
@@ -1152,7 +1128,7 @@ function moduleMockCall(sourceCode, callee) {
   const method = callee.computed ? property.type === "Literal" && (property.value === "doMock" || property.value === "mock" || property.value === "unstable_mockModule") ? property.value : null : property.type === "Identifier" ? property.name : null;
   return method !== null && moduleMockMethods.has(method);
 }
-var noModuleMockingRule = (0, import_plugins6.defineRule)({
+var noModuleMockingRule = defineRule6({
   meta: {
     type: "problem",
     docs: {
@@ -1175,8 +1151,8 @@ var noModuleMockingRule = (0, import_plugins6.defineRule)({
 });
 
 // src/rules/no-object-parameters.ts
-var import_plugins7 = require("@oxlint/plugins");
-var noObjectParametersRule = (0, import_plugins7.defineRule)({
+import { defineRule as defineRule7 } from "@oxlint/plugins";
+var noObjectParametersRule = defineRule7({
   meta: {
     type: "problem",
     docs: {
@@ -1229,7 +1205,7 @@ var noObjectParametersRule = (0, import_plugins7.defineRule)({
 });
 
 // src/rules/no-reflect-apply.ts
-var import_plugins8 = require("@oxlint/plugins");
+import { defineRule as defineRule8 } from "@oxlint/plugins";
 
 // src/shared/reflect-method.ts
 function isGlobalReflect(sourceCode, expression) {
@@ -1246,7 +1222,7 @@ function isGlobalReflectMethodCall(sourceCode, callee, methodName) {
 }
 
 // src/rules/no-reflect-apply.ts
-var noReflectApplyRule = (0, import_plugins8.defineRule)({
+var noReflectApplyRule = defineRule8({
   meta: {
     type: "problem",
     docs: {
@@ -1269,8 +1245,8 @@ var noReflectApplyRule = (0, import_plugins8.defineRule)({
 });
 
 // src/rules/no-reflect-get.ts
-var import_plugins9 = require("@oxlint/plugins");
-var noReflectGetRule = (0, import_plugins9.defineRule)({
+import { defineRule as defineRule9 } from "@oxlint/plugins";
+var noReflectGetRule = defineRule9({
   meta: {
     type: "problem",
     docs: {
@@ -1293,7 +1269,7 @@ var noReflectGetRule = (0, import_plugins9.defineRule)({
 });
 
 // src/rules/no-runtime-typeof.ts
-var import_plugins10 = require("@oxlint/plugins");
+import { defineRule as defineRule10 } from "@oxlint/plugins";
 function isRuntimeFunction(node) {
   return node.type === "ArrowFunctionExpression" || node.type === "FunctionDeclaration" || node.type === "FunctionExpression";
 }
@@ -1314,7 +1290,7 @@ function isExistenceProbe(node) {
   const other = parent.left === node ? parent.right : parent.left;
   return other.type === "Literal" && other.value === "undefined";
 }
-var noRuntimeTypeofRule = (0, import_plugins10.defineRule)({
+var noRuntimeTypeofRule = defineRule10({
   meta: {
     type: "problem",
     docs: {
@@ -1348,7 +1324,7 @@ var noRuntimeTypeofRule = (0, import_plugins10.defineRule)({
 });
 
 // src/rules/no-shape-in-symbol-names.ts
-var import_plugins11 = require("@oxlint/plugins");
+import { defineRule as defineRule11 } from "@oxlint/plugins";
 var FORBIDDEN_SYMBOL_NAME = "shape";
 function containsForbiddenSymbolName(name) {
   return name.toLowerCase().includes(FORBIDDEN_SYMBOL_NAME);
@@ -1358,7 +1334,7 @@ function isBorrowedMemberName(node) {
   if (parent === null || parent.type !== "MemberExpression") return false;
   return parent.property === node && parent.computed === false;
 }
-var noForbiddenTermInSymbolNamesRule = (0, import_plugins11.defineRule)({
+var noForbiddenTermInSymbolNamesRule = defineRule11({
   meta: {
     type: "problem",
     docs: {
@@ -1386,12 +1362,12 @@ var noForbiddenTermInSymbolNamesRule = (0, import_plugins11.defineRule)({
 });
 
 // src/rules/no-unknown-parameters.ts
-var import_plugins12 = require("@oxlint/plugins");
+import { defineRule as defineRule12 } from "@oxlint/plugins";
 function isTypePredicateSubject(owner, parameterName) {
   const predicate = owner.returnType?.typeAnnotation;
   return predicate?.type === "TSTypePredicate" && predicate.parameterName.type === "Identifier" && predicate.parameterName.name === parameterName;
 }
-var noUnknownParametersRule = (0, import_plugins12.defineRule)({
+var noUnknownParametersRule = defineRule12({
   meta: {
     type: "problem",
     docs: {
@@ -1432,8 +1408,8 @@ var noUnknownParametersRule = (0, import_plugins12.defineRule)({
 });
 
 // src/rules/no-unknown-returns.ts
-var import_plugins13 = require("@oxlint/plugins");
-var noUnknownReturnsRule = (0, import_plugins13.defineRule)({
+import { defineRule as defineRule13 } from "@oxlint/plugins";
+var noUnknownReturnsRule = defineRule13({
   meta: {
     type: "problem",
     docs: {
@@ -1485,8 +1461,8 @@ var noUnknownReturnsRule = (0, import_plugins13.defineRule)({
 });
 
 // src/rules/no-unknown-type-aliases.ts
-var import_plugins14 = require("@oxlint/plugins");
-var noUnknownTypeAliasesRule = (0, import_plugins14.defineRule)({
+import { defineRule as defineRule14 } from "@oxlint/plugins";
+var noUnknownTypeAliasesRule = defineRule14({
   meta: {
     type: "problem",
     docs: {
@@ -1525,7 +1501,7 @@ var noUnknownTypeAliasesRule = (0, import_plugins14.defineRule)({
 });
 
 // src/rules/no-unsafe-dictionary-type.ts
-var import_plugins15 = require("@oxlint/plugins");
+import { defineRule as defineRule15 } from "@oxlint/plugins";
 var typeNodeKinds = /* @__PURE__ */ new Set([
   "JSDocNonNullableType",
   "JSDocNullableType",
@@ -1606,7 +1582,7 @@ function shouldReportType(node, environment) {
   }
   return true;
 }
-var noUnsafeDictionaryTypeRule = (0, import_plugins15.defineRule)({
+var noUnsafeDictionaryTypeRule = defineRule15({
   meta: {
     type: "problem",
     docs: {
@@ -1651,7 +1627,7 @@ var noUnsafeDictionaryTypeRule = (0, import_plugins15.defineRule)({
 });
 
 // src/rules/no-widen-then-assert.ts
-var import_plugins16 = require("@oxlint/plugins");
+import { defineRule as defineRule16 } from "@oxlint/plugins";
 var functionBoundaryTypes = /* @__PURE__ */ new Set([
   "ArrowFunctionExpression",
   "FunctionDeclaration",
@@ -1837,7 +1813,7 @@ function assertionIsNarrower(sourceText, broadKind, evidence, assertedType) {
   if (broadKind === "object") return isDefinitelyObjectType(assertedType);
   return isDefinitelyNarrowerRecordType(assertedType);
 }
-var noWidenThenAssertRule = (0, import_plugins16.defineRule)({
+var noWidenThenAssertRule = defineRule16({
   meta: {
     type: "problem",
     docs: {
@@ -2444,7 +2420,7 @@ var requireReadableSpacingRule = {
 };
 
 // src/rules/require-safety-comment-for-type-assertion.ts
-var import_plugins17 = require("@oxlint/plugins");
+import { defineRule as defineRule17 } from "@oxlint/plugins";
 var DEFAULT_SAFETY_MARKERS = ["SAFETY"];
 var commentOwnerKinds = /* @__PURE__ */ new Set([
   "ExpressionStatement",
@@ -2491,7 +2467,7 @@ function hasSafetyComment(sourceCode, node, pattern) {
     current = current.parent;
   }
 }
-var requireSafetyCommentForTypeAssertionRule = (0, import_plugins17.defineRule)({
+var requireSafetyCommentForTypeAssertionRule = defineRule17({
   meta: {
     type: "problem",
     docs: {
@@ -2539,7 +2515,7 @@ var requireSafetyCommentForTypeAssertionRule = (0, import_plugins17.defineRule)(
 });
 
 // src/index.ts
-var antiSlopPlugin = (0, import_plugins18.eslintCompatPlugin)({
+var antiSlopPlugin = eslintCompatPlugin({
   meta: { name: "anti-slop" },
   rules: {
     "no-array-filter-map": noArrayFilterMapRule,
@@ -2563,3 +2539,6 @@ var antiSlopPlugin = (0, import_plugins18.eslintCompatPlugin)({
   }
 });
 var index_default = antiSlopPlugin;
+export {
+  index_default as default
+};
